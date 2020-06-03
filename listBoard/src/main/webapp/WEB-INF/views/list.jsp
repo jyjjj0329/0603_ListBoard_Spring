@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <% request.setCharacterEncoding("UTF-8"); %>    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
@@ -50,10 +49,10 @@
       </tr>
     </thead>
     <tbody>
-    <c:if test="${fn:length(boardVO) == 0}">
+    <c:if test="${boardVO.size() == 0}">
         <td colspan="6" align="center">게시글이 없습니다. 첫번째 게시글의 주인공이 되어주세요.</td>
     </c:if>
-	  <c:if test="${fn:length(boardVO) > 0}">
+	  <c:if test="${boardVO.size() > 0}">
 	  <c:forEach var="item" items="${boardVO}" varStatus="status">
       <tr>
       	<td><input type="checkbox" name="check" id="check" class="check"></td>

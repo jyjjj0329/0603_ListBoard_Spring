@@ -4,7 +4,7 @@
 <mapper namespace="kr.test.dao.BoardDAO">
 
 <insert id="insert" parameterType="boardVO">
-insert into board values(board_idx_seq.nextval, #{writer}, #{title}, #{category}, 0, sysdate)
+insert into board values(board_idx_seq.nextval, #{title}, #{content}, #{writer}, #{category}, 0, sysdate)
 </insert>
 
 <select id="totalCount" resultType="int">
@@ -12,7 +12,7 @@ select count(*) from board
 </select>
 
 <select id="select" resultType="boardVO">
-select * from board
+select * from board order by reg_date desc
 </select>
 
 <update id="reqUpdate" parameterType="int">

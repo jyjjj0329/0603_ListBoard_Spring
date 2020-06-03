@@ -45,7 +45,7 @@ public class HomeController {
 		BoardDAO mapper = sqlSession.getMapper(BoardDAO.class);
 		mapper.insert(boardVO);
 		
-		return "list";
+		return "redirect:list";
 	}
 	
 //	list페이지
