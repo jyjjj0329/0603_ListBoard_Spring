@@ -43,6 +43,7 @@ public class HomeController {
 		System.out.println("컨트롤러에서 insertOK에 들어옴.");
 		
 		BoardDAO mapper = sqlSession.getMapper(BoardDAO.class);
+		System.out.println("컨트롤러에서 boardVO의 값은 : " + boardVO);
 		mapper.insert(boardVO);
 		
 		return "redirect:list";

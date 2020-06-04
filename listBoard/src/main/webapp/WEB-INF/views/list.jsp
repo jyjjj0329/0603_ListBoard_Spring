@@ -13,7 +13,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+<script>
 
+
+</script>
 <style type="text/css">
   .button {
   	height: 25px; 
@@ -27,15 +30,11 @@
   </style>
 </head>
 <body>
-<script type="text/javascript">
-
-</script>
-
 <div class="container" id="Context">
   <h2>전체 글보기 ${totalCount }</h2>
   <hr>
   	<input type="button" value="전체 선택" id="AllCheck" class="button" onclick="AllCheck()">
-  	<input type="button" value="글쓰기" name="write" class="button" onclick="location.href='insert'">
+  	<input type="button" value="글쓰기" name="write" class="button" onclick="insert()">
   	<input type="button" value="삭제" name="delete" class="button">
   <table class="table table-striped">
     <thead>
@@ -104,6 +103,20 @@ function check() {
 	}
 }
 
+function insert(){
+	$.ajax({
+		type: "Post",
+		url: "insert",
+		async: false,
+		success: function(){
+			console.log("글쓰기 페이지로 이동");
+			location.href="insert";
+			/* location.reload; */
+		}, error: function(){
+			console.log("글쓰기 페이지로 이동 실패")
+		}
+	});
+}
 
 </script>
 </html>
