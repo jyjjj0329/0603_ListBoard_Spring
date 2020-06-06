@@ -11,8 +11,11 @@ insert into board values(board_idx_seq.nextval, #{title}, #{content}, #{writer},
 select count(*) from board
 </select>
 
-<select id="select" resultType="boardVO">
-select * from board order by reg_date desc
+<select id="select" resultType="boardVO" parameterType="java.util.HashMap">
+<![CDATA[
+select * from (SELECT ROWNUM rn, tt.* FROM (SELECT * FROM board order by idx desc) 
+TT) where rn >= #{startNo} AND rn <= #{endNo}
+]]>
 </select>
 
 <update id="reqUpdate" parameterType="int">

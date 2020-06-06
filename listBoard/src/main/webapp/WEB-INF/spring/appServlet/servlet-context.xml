@@ -22,6 +22,7 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="kr.test.controller" />
+	<context:component-scan base-package="kr.test.vo" />
 	
 	<beans:bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
 		<beans:property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />

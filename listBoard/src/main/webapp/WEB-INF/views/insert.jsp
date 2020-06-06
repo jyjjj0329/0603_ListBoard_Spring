@@ -9,7 +9,7 @@
 </head>
 <body>
 	<div align="center">
-	<form id="form">
+	<form id="form" action="insertOK">
 	<table border="1">
 		<tr>
 			<td>
@@ -30,27 +30,11 @@
 			<td colspan="3"> <textarea rows="5" cols="50" name="content" id="content"></textarea>
 		</tr>
 		<tr>
-			<td colspan="5"><input type="button" value="입력" onclick="insertOK()"></td>
+			<td colspan="5"><input type="submit" value="입력"></td>
 		</tr>
 	</table>
 	</form>
 </div>
 </body>
-
-<script type="text/javascript">
-function insertOK() {
-	$.ajax({
-		type: "Post",
-		url: "insertOK",
-		data: $("#form").serialize(),
-			success: function(data){
-				console.log("입력 성공");
-				location.href="list";
-			}, error: function(){
-				console.log("삭제 실패")
-			}
-	});
-};
-</script>
 
 </html>

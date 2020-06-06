@@ -9,7 +9,7 @@
 <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
 </head>
 <body>
-<form id="form">
+<form id="form" action="updateOK">
 <input type="hidden" value="${boardVO.idx }" name="idx">
 <div align="center">
 <table>
@@ -39,9 +39,8 @@
 	</tr>
 	<tr>	
 		<td colspan="4">
-			<input type="button" value="수정" onclick="updateOK()">
-			<%-- <input type="button" value="삭제" onclick="location.href='delete?idx=${boardVO.idx}'"> --%>
-			<input type="button" value="삭제" onclick="delete2()">
+			<input type="submit" value="수정">
+			<input type="button" value="삭제" onclick="location.href='delete?idx=${boardVO.idx}'">
 		</td>
 	</tr>
 </table>
@@ -50,35 +49,6 @@
 </body>
 
 <script type="text/javascript">
-function delete2() {
-	$.ajax({
-		type: "Get",
-		url: "delete",
-		async: false,
-		data: {"idx": ${boardVO.idx}},
-			success: function(data){
-				console.log("삭제 성공");
-				location.href="list";
-				/* location.reload; */
-			}, error: function(){
-				console.log("삭제 실패")
-			}
-	});
-};
 
-function updateOK() {
-	$.ajax({
-		type: "Post",
-		url: "updateOK",
-		data: $("#form").serialize(),
-			success: function(data){
-				console.log("수정 성공");
-				location.href="list";
-				/* location.reload; */
-			}, error: function(){
-				console.log("수정 실패")
-			}
-	});
-};
 </script>
 </html>

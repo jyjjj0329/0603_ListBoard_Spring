@@ -1,7 +1,6 @@
 package kr.test.controller;
 
-import java.util.ArrayList;
-import java.util.Locale;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,10 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.test.dao.BoardDAO;
 import kr.test.vo.BoardVO;
+import kr.test.vo.ListVO;
 
 @Controller
 public class HomeController {
@@ -21,12 +21,15 @@ public class HomeController {
 	@Autowired
 	public SqlSession sqlSession;
 	
+	@Autowired
+	public ListVO listVO;
+	
 //	처음 메인페이지
 	@RequestMapping(value = "/")
 	public String home() {
 		System.out.println("컨트롤러에서 /에 들어옴.");
 		
-		return "redirect:list";
+		return "redirect:list?page=1";
 	}
 	
 //	글쓰기 페이지로 가는 컨트롤러
@@ -39,29 +42,41 @@ public class HomeController {
 	
 //	글쓰기 완료
 	@RequestMapping(value = "insertOK")
-	public String insertOK(HttpServletRequest req, Model model, BoardVO boardVO) {
+	public String insertOK(HttpServletRequest req, Model model, 
+			BoardVO boardVO, RedirectAttributes redirect) {
 		System.out.println("컨트롤러에서 insertOK에 들어옴.");
 		
 		BoardDAO mapper = sqlSession.getMapper(BoardDAO.class);
 		System.out.println("컨트롤러에서 boardVO의 값은 : " + boardVO);
 		mapper.insert(boardVO);
 		
+//		redirect로 page의 파라미터값 1을 보내줌
+		redirect.addAttribute("page", 1);
+			
 		return "redirect:list";
 	}
 	
 //	list페이지
 	@RequestMapping(value = "list")
-	public String list(Model model) {
+	public String list(HttpServletRequest req, Model model) {
 		System.out.println("컨트롤러에서 list에 들어옴.");
 		
+//		페이징
 		BoardDAO mapper = sqlSession.getMapper(BoardDAO.class);
-		int totalCount = mapper.totalCount();
+		listVO.setTotalCount(mapper.totalCount());
 		
-		ArrayList<BoardVO> boardVOs = mapper.select();
+		listVO.setCurrentPage(Integer.parseInt(req.getParameter("page")));
+		listVO.initPageList(listVO.getPageSize(), listVO.getTotalCount(), listVO.getCurrentPage());
+		System.out.println("컨트롤러에서 전체 페이지 수는 : " + listVO.getTotalPage());
 		
-		System.out.println("boardVO의 값은 : " + boardVOs.toString());
-		model.addAttribute("totalCount", totalCount);
-		model.addAttribute("boardVO", boardVOs);
+		HashMap<String, Object> hmap = new HashMap<String, Object>();
+		hmap.put("startNo", listVO.getStartNo());
+		hmap.put("endNo", listVO.getEndNo());
+		
+		listVO.setBoardVO(mapper.select(hmap));
+		
+		System.out.println("boardVO의 값은 : " + listVO.getBoardVO());
+		model.addAttribute("listVO", listVO);
 		
 		return "list";
 	}
@@ -91,7 +106,7 @@ public class HomeController {
 		BoardDAO mapper = sqlSession.getMapper(BoardDAO.class);
 		mapper.update(boardVO);
 		
-		return "redirect:list";
+		return "redirect:list?page=1";
 	}
 	
 //	글 삭제
@@ -103,7 +118,7 @@ public class HomeController {
 		BoardDAO mapper = sqlSession.getMapper(BoardDAO.class);
 		mapper.delete(idx);
 		
-		return "redirect:list";
+		return "redirect:list?page=1";
 	}
 	
 }

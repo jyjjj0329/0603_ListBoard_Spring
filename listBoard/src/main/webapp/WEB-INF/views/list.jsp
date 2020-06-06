@@ -27,36 +27,42 @@
   	text-align: center;
   }
   
-  </style>
+</style>
 </head>
 <body>
+<c:set var="list" value="${listVO.boardVO }"/>
 <div class="container" id="Context">
-  <h2>전체 글보기 ${totalCount }</h2>
+  <h2>전체 글 수 ${listVO.totalCount }</h2>
   <hr>
-  	<input type="button" value="전체 선택" id="AllCheck" class="button" onclick="AllCheck()">
   	<input type="button" value="글쓰기" name="write" class="button" onclick="insert()">
   	<input type="button" value="삭제" name="delete" class="button">
+  	<div align="right" style="display: inline-block; float: right;">
+  	<form>
+		<input type="search">
+		<input type="submit" value="검색">
+	</form>
+	</div>
   <table class="table table-striped">
     <thead>
       <tr>
       	<th><input type="checkbox" name="check" class="check" onclick="check()"></th>
         <th>번호</th>
-        <th>제목</th>
+        <th>[분류]제목</th>
         <th>글쓴이</th>
         <th>조회</th>
         <th>게시일</th>
       </tr>
     </thead>
     <tbody>
-    <c:if test="${boardVO.size() == 0}">
+    <c:if test="${list.size() == 0}">
         <td colspan="6" align="center">게시글이 없습니다. 첫번째 게시글의 주인공이 되어주세요.</td>
     </c:if>
-	  <c:if test="${boardVO.size() > 0}">
-	  <c:forEach var="item" items="${boardVO}" varStatus="status">
+	  <c:if test="${list.size() > 0}">
+	  <c:forEach var="item" items="${list}" varStatus="status">
       <tr>
       	<td><input type="checkbox" name="check" id="check" class="check"></td>
-        <td>${status.count }</td>
-        <td><a href="update?idx=${item.idx}">${item.title }</a></td>
+        <td>${item.idx }</td>
+        <td><a href="update?idx=${item.idx}">[${item.category}]${item.title }</a></td>
         <td>${item.writer }</td>
         <td>${item.ref }</td>
         <td><fmt:formatDate value="${item.reg_date }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
@@ -67,28 +73,61 @@
   </table>
 </div>
 
+ <ul class="pagination pagination-sm justify-content-center" style="margin:20px 0">
+    <li class="page-item">
+    <c:if test="${listVO.currentPage > 3}">
+	    <a class="page-link" aria-label="Previous" href="list?page=${listVO.currentPage - 3 }">
+			<span aria-hidden="true">&laquo;</span>
+	       	<span class="sr-only">Previous</span>
+	    </a>
+	</c:if>
+    </li>
+    <li class="page-item">
+    <c:if test="${listVO.currentPage > 2}">
+	    <a class="page-link" href="list?page=${listVO.currentPage - 2 }">
+	    	${listVO.currentPage - 2 }
+	    </a>
+	</c:if>
+    </li>
+    <li class="page-item">
+    <c:if test="${listVO.currentPage > 1}">
+    	<a class="page-link" href="list?page=${listVO.currentPage - 1 }">
+    		${listVO.currentPage - 1 }
+    	</a>
+   	</c:if>
+    </li>
+    <li class="page-item disabled">
+    	<a class="page-link">
+    		${listVO.currentPage}
+    	</a>
+    </li>
+    <li class="page-item">
+    <c:if test="${listVO.currentPage < listVO.totalPage}">
+    	<a class="page-link" href="list?page=${listVO.currentPage + 1 }">
+    		${listVO.currentPage + 1 }
+    	</a>
+   	</c:if>
+    </li>
+    <li class="page-item">
+    <c:if test="${listVO.currentPage + 1 < listVO.totalPage}">
+    	<a class="page-link" href="list?page=${listVO.currentPage + 2 }">
+    		${listVO.currentPage + 2 }
+    	</a>
+   	</c:if>
+    </li>
+    <li class="page-item">
+    <c:if test="${listVO.currentPage + 2 < listVO.totalPage}">
+		<a class="page-link" aria-label="Next" href="list?page=${listVO.currentPage + 3 }">
+        	<span aria-hidden="true">&raquo;</span>
+        	<span class="sr-only">Next</span>
+       	</a> 
+    </c:if>
+	</li>
+  </ul>
+
 </body>
 <script type="text/javascript">
   
-function AllCheck() {
-var AllCheck = document.getElementById("AllCheck");
-var check = document.getElementsByName('check')[0].getAttribute('checked');
-	alert("실행")
-	var size = document.getElementsByName("check").length;
-		if(AllCheck.value == '전체 선택' || !check){
-			for(var i = 0; i < size; i++){ 
-				document.getElementsByName("check")[i].setAttribute('checked', true )
-			}
-			AllCheck.value = '전체 해제';
-		}else{
-			for(var i = 0; i < size; i++){ 
-				document.getElementsByName("check")[i].removeAttribute('checked')
-			}
-			AllCheck.value = '전체 선택';
-		}
-	
-}
-
 function check() {
 	var check = document.getElementsByName('check')[0].getAttribute('checked');
 	var size = document.getElementsByName("check").length;
@@ -96,7 +135,7 @@ function check() {
 		for(var i = 0; i < size; i++){ 
 			document.getElementsByName("check")[i].setAttribute('checked', true )
 		}
-	}else{
+	}else if(check){
 		for(var i = 0; i < size; i++){ 
 			document.getElementsByName("check")[i].removeAttribute('checked')
 		}
