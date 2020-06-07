@@ -7,7 +7,6 @@ public class BoardVO {
 	private int idx;
 	private String writer;
 	private String title;
-	private String category;
 	private String content;
 	private int ref;
 	private Date reg_date;
@@ -36,12 +35,6 @@ public class BoardVO {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getCategory() {
-		return category;
-	}
-	public void setCategory(String category) {
-		this.category = category;
-	}
 	public int getRef() {
 		return ref;
 	}
@@ -54,11 +47,11 @@ public class BoardVO {
 	public void setReg_date(Date reg_date) {
 		this.reg_date = reg_date;
 	}
-
+	
 	@Override
 	public String toString() {
-		return "BoardVO [idx=" + idx + ", writer=" + writer + ", title=" + title + ", category=" + category
-				+ ", content=" + content + ", ref=" + ref + ", reg_date=" + reg_date + "]";
+		return "BoardVO [idx=" + idx + ", writer=" + writer + ", title=" + title + ", content=" + content + ", ref="
+				+ ref + ", reg_date=" + reg_date + "]";
 	}
 	
 }

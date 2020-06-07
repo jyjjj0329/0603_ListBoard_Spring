@@ -13,10 +13,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
-<script>
-
-
-</script>
+  
 <style type="text/css">
   .button {
   	height: 25px; 
@@ -37,8 +34,12 @@
   	<input type="button" value="글쓰기" name="write" class="button" onclick="insert()">
   	<input type="button" value="삭제" name="delete" class="button">
   	<div align="right" style="display: inline-block; float: right;">
-  	<form>
-		<input type="search">
+  	<form action="list?page=1">
+	  	<select name="category">
+	  		<option value="제목">제목</option>
+	  		<option value="작성자">작성자</option>
+	  	</select>
+		<input type="search" name="search">
 		<input type="submit" value="검색">
 	</form>
 	</div>
@@ -47,8 +48,8 @@
       <tr>
       	<th><input type="checkbox" name="check" class="check" onclick="check()"></th>
         <th>번호</th>
-        <th>[분류]제목</th>
-        <th>글쓴이</th>
+        <th>제목</th>
+        <th>작성자</th>
         <th>조회</th>
         <th>게시일</th>
       </tr>
@@ -62,7 +63,7 @@
       <tr>
       	<td><input type="checkbox" name="check" id="check" class="check"></td>
         <td>${item.idx }</td>
-        <td><a href="update?idx=${item.idx}">[${item.category}]${item.title }</a></td>
+        <td><a href="update?idx=${item.idx}">${item.title }</a></td>
         <td>${item.writer }</td>
         <td>${item.ref }</td>
         <td><fmt:formatDate value="${item.reg_date }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
