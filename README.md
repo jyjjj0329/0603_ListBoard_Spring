@@ -7,7 +7,7 @@
 ### 테이블
 ##### board 테이블
 이름|타입|제약조건|활용이유
-------|---|---
+------|---|---|--------
 idx|number|primary key|번호
 title|varchar2(40)|not null|제목
 content|varchar2(1000)|not null|본문
