@@ -60,16 +60,23 @@ public class HomeController {
 	@RequestMapping(value = "list")
 	public String list(HttpServletRequest req, Model model) {
 		System.out.println("컨트롤러에서 list에 들어옴.");
+		BoardDAO mapper = sqlSession.getMapper(BoardDAO.class);
+		
+		HashMap<String, Object> hmap = new HashMap<String, Object>();
+		String category = req.getParameter("category");
+		String search = req.getParameter("search");
+		hmap.put("category", category);
+		hmap.put("search", search);
+		System.out.println("컨트롤러에서 category의 값은 : " + category);
+		System.out.println("컨트롤러에서 search의 값은 : " + search);
 		
 //		페이징
-		BoardDAO mapper = sqlSession.getMapper(BoardDAO.class);
-		listVO.setTotalCount(mapper.totalCount());
+		listVO.setTotalCount(mapper.totalCount(hmap));
 		
 		listVO.setCurrentPage(Integer.parseInt(req.getParameter("page")));
 		listVO.initPageList(listVO.getPageSize(), listVO.getTotalCount(), listVO.getCurrentPage());
 		System.out.println("컨트롤러에서 전체 페이지 수는 : " + listVO.getTotalPage());
 		
-		HashMap<String, Object> hmap = new HashMap<String, Object>();
 		hmap.put("startNo", listVO.getStartNo());
 		hmap.put("endNo", listVO.getEndNo());
 		

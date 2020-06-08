@@ -7,14 +7,32 @@
 insert into board values(board_idx_seq.nextval, #{title}, #{content}, #{writer}, #{category}, 0, sysdate)
 </insert>
 
-<select id="totalCount" resultType="int">
+<select id="totalCount" resultType="int" parameterType="java.util.HashMap">
 select count(*) from board
+<if test="category != null">
+	<if test="'category'.equals(title)">
+		where title LIKE '%||#{search}||%'
+	</if>
+	<if test="'category'.equals(writer)">
+		where writer LIKE '%'||#{search}||'%'
+	</if>
+</if>
 </select>
 
 <select id="select" resultType="boardVO" parameterType="java.util.HashMap">
 <![CDATA[
-select * from (SELECT ROWNUM rn, tt.* FROM (SELECT * FROM board order by idx desc) 
-TT) where rn >= #{startNo} AND rn <= #{endNo}
+select * from (SELECT ROWNUM rn, tt.* FROM (SELECT * FROM board order by idx desc) TT
+]]>
+<if test="category != null">
+	<if test="category.equals('title')">
+		where title LIKE '%'||#{search}||'%'
+	</if>
+	<if test="category.equals('writer')">
+		where writer LIKE '%'||#{search}||'%'
+	</if>
+</if>
+<![CDATA[
+) where rn >= #{startNo} AND rn <= #{endNo}
 ]]>
 </select>
 

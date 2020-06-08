@@ -34,10 +34,11 @@
   	<input type="button" value="글쓰기" name="write" class="button" onclick="insert()">
   	<input type="button" value="삭제" name="delete" class="button">
   	<div align="right" style="display: inline-block; float: right;">
-  	<form action="list?page=1">
+  	<form action="list">
+  	<input type="hidden" name="page" value="1">
 	  	<select name="category">
-	  		<option value="제목">제목</option>
-	  		<option value="작성자">작성자</option>
+	  		<option value="title">제목</option>
+	  		<option value="writer">작성자</option>
 	  	</select>
 		<input type="search" name="search">
 		<input type="submit" value="검색">

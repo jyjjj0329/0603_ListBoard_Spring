@@ -9,7 +9,7 @@ public interface BoardDAO {
 
 	public void insert(BoardVO boardVO);
 
-	public int totalCount();
+	public int totalCount(HashMap<String, Object> hmap);
 	
 	public ArrayList<BoardVO> select(HashMap<String, Object> hmap);
 
