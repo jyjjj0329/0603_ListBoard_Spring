@@ -4,16 +4,16 @@
 <mapper namespace="kr.test.dao.BoardDAO">
 
 <insert id="insert" parameterType="boardVO">
-insert into board values(board_idx_seq.nextval, #{title}, #{content}, #{writer}, #{category}, 0, sysdate)
+insert into board values(board_idx_seq.nextval, #{title}, #{content}, #{writer}, 0, sysdate)
 </insert>
 
 <select id="totalCount" resultType="int" parameterType="java.util.HashMap">
 select count(*) from board
 <if test="category != null">
-	<if test="'category'.equals(title)">
-		where title LIKE '%||#{search}||%'
+	<if test="category.equals('title')">
+		where title LIKE '%'||#{search}||'%'
 	</if>
-	<if test="'category'.equals(writer)">
+	<if test="category.equals('writer')">
 		where writer LIKE '%'||#{search}||'%'
 	</if>
 </if>

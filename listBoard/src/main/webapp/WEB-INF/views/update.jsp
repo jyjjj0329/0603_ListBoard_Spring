@@ -14,12 +14,8 @@
 <div align="center">
 <table>
 	<tr>	
-		<td>분류</td>
-		<td>${boardVO.category }</td>
 		<td>작성자</td>
 		<td>${boardVO.writer }</td>
-	</tr>
-	<tr>	
 		<td>조회수</td>
 		<td>${boardVO.ref }</td>
 		<td>날짜</td>
@@ -27,13 +23,13 @@
 	</tr>
 	<tr>	
 		<td>제목</td>
-		<td colspan="3">
+		<td colspan="5">
 		<input type="text" name="title" value="${boardVO.title }" class="title"/>
 		</td>
 	</tr>
 	<tr>	
 		<td>내용</td>
-		<td colspan="3">
+		<td colspan="5">
 		<textarea rows="5" cols="50" name="content" class="content">${boardVO.content }</textarea>
 		</td>
 	</tr>
